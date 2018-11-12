@@ -20,9 +20,12 @@ class Game:
         # adds a player to the group
         self.player = Player()
         self.all_sprites.add(self.player)
+        # self.enemy = Enemy()
+        # self.all_sprites.add(self.enemy)
         #call the method to run
         self.run()
     def run(self):
+        #very imporrtant allows for sprite to move thru screen
         self.playing = True
         while self.playing:
             self.clock.tick(FPS)
@@ -32,6 +35,7 @@ class Game:
     def update(self):
         self.all_sprites.update()
     def events(self):
+        #listening for evernts
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 if self.playing:
@@ -40,7 +44,9 @@ class Game:
     #makes screen red
     def draw(self):
         self.screen.fill(REDDISH)
+        #very important uses all sprites
         self.all_sprites.draw(self.screen)
+        #decreases lag by making loading next display in memory
         pg.display.flip()
     def show_start_screen(self):
         pass
