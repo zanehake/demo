@@ -71,10 +71,12 @@ class Game:
         self.powerups = pg.sprite.Group()
         
         self.mob_timer = 0
+        self.obj_timer = 0
         # add a player 1 to the group
         self.player = Player(self)
         # add mobs
         self.mobs = pg.sprite.Group()
+        self.objs = pg.sprite.Group()
         # no longer needed after passing self.groups in Sprites library file
         # self.all_sprites.add(self.player)
         # instantiate new platform 
@@ -112,6 +114,10 @@ class Game:
         if now - self.mob_timer > 5000 + random.choice([-1000, -500, 0, 500, 1000]):
             self.mob_timer = now
             Mob(self)
+        now = pg.time.get_ticks()
+        if now - self.obj_timer > 5000 + random.choice([-1000, -500, 0, 500, 1000]):
+            self.obj_timer = now
+            Obj(self)
         ##### check for mob collisions ######
         # now using collision mask to determine collisions
         # can use rectangle collisions here first if we encounter performance issues
@@ -129,6 +135,19 @@ class Game:
                 print("mob is " + str(mob_hits[0].rect_top))
                 self.playing = False
 
+        obj_hits = pg.sprite.spritecollide(self.player, self.objs, False, pg.sprite.collide_mask)
+        if obj_hits:
+            # can use mask collide here if obj count gets too high and creates performance issues
+            if self.player.pos.y - 35 < obj_hits[0].rect_top:
+                print("hit top")
+                print("player is " + str(self.player.pos.y))
+                print("obj is " + str(obj_hits[0].rect_top))
+                self.head_jump_sound.play()
+                self.player.vel.y = -BOOST_POWER
+            else:
+                print("player is " + str(self.player.pos.y))
+                print("obj is " + str(obj_hits[0].rect_top))
+                self.playing = False
         # check to see if player can jump - if falling
         if self.player.vel.y > 0:
             hits = pg.sprite.spritecollide(self.player, self.platforms, False)
@@ -161,6 +180,8 @@ class Game:
             for mob in self.mobs:
                 # creates slight scroll based on player y velocity
                 mob.rect.y += max(abs(self.player.vel.y), 2)
+            for obj in self.objs:
+                obj.rect.y += max(abs(self.player.vel.y), 2)
             for plat in self.platforms:
                 # creates slight scroll based on player y velocity
                 plat.rect.y += max(abs(self.player.vel.y), 2)
@@ -258,7 +279,7 @@ class Game:
 
         pg.display.flip()
         self.wait_for_key()
-    def draw_text(self, text, size, color, x, y):
+    def draw_text(self, text, size, color, x, y):    
         font = pg.font.Font(self.font_name, size)
         text_surface = font.render(text, True, color)
         text_rect = text_surface.get_rect()

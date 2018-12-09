@@ -254,24 +254,24 @@ class Obj(Sprite):
     def __init__(self, game):
         # adding a object falling from the sky
         self._layer = OBJ_LAYER
-        self.groups = game.all_sprites, game.mobs
+        self.groups = game.all_sprites, game.objs
         Sprite.__init__(self, self.groups)
         self.game = game
-        self.image_up = self.game.spritesheet.get_image(600, 510, 122, 139)
+        self.image_up = self.game.spritesheet.get_image(900, 1733, 41, 80)
         self.image_up.set_colorkey(BLACK)
-        self.image_down = self.game.spritesheet.get_image(700, 1534, 122, 135)
+        self.image_down = self.game.spritesheet.get_image(700, 1534, 122, 200)
         self.image_down.set_colorkey(BLACK)
         self.image = self.image_up
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
-        self.rect.centerx = choice([-100, WIDTH + 100])
+        self.rect.centerx = choice([-100, WIDTH - WIDTH])
         self.rect_top = self.rect.top
         self.vx = randrange(1, 4)
         if self.rect.centerx > WIDTH:
-            self.vx *= -1
+            self.vx *= 1
         self.rect.y = randrange(HEIGHT//1.5)
-        self.vy = 0
-        self.dy = 0.5
+        self.vy = 2
+        self.dy = .5
     def update(self):
         self.rect.x += self.vx
         self.vy += self.dy
