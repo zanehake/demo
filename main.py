@@ -3,8 +3,15 @@
 # now available in github
 
 '''
+Game play idea
 adding a object falling from the top of the screen to make the gameplay more difficult
+Made a sprite very similar to the mob but instread of moving horizontally it falls horizontally from the top of the screen
+I went a bad way about doing this because instead of creating a new sprite i copied much of the mobs code and had a lot of trouble 
+figuring out the code and how to manipulate what it does so that it moves and spawns where i want
 
+Bugs; obj fall from the side of screen not directly on top and fall diagonally
+
+Made the platforms into cake & powerup into golder carrots 
 
 '''
 import pygame as pg
@@ -13,7 +20,7 @@ from settings import *
 from sprites import *
 from os import path
 
-class Game:
+class Game: 
     def __init__(self):
         #init game window
         # init pygame and create window
@@ -83,7 +90,7 @@ class Game:
         for plat in PLATFORM_LIST:
             # no longer need to assign to variable because we're passing self.groups in Sprite library
             # p = Platform(self, *plat)
-            Platform(self, *plat)
+            Platform(self, *plat) 
             # no longer needed because we pass in Sprite lib file
             # self.all_sprites.add(p)
             # self.platforms.add(p)
@@ -291,7 +298,7 @@ g = Game()
 g.show_start_screen()
 
 while g.running:
-    g.new()
+    g.new()         
     try:
         g.show_go_screen()
     except:

@@ -176,8 +176,8 @@ class Platform(Sprite):
         self.groups = game.all_sprites, game.platforms
         Sprite.__init__(self, self.groups)
         self.game = game
-        images = [self.game.spritesheet.get_image(0, 288, 380, 94), 
-                  self.game.spritesheet.get_image(213, 1662, 201, 100)]
+        images = [self.game.spritesheet.get_image(0, 576, 380, 94), 
+                  self.game.spritesheet.get_image(218, 1456, 201, 100)]
         self.image = random.choice(images)
         self.image.set_colorkey(BLACK)
         '''leftovers from random rectangles before images'''
@@ -198,7 +198,7 @@ class Pow(Sprite):
         self.game = game
         self.plat = plat
         self.type = random.choice(['boost'])
-        self.image = self.game.spritesheet.get_image(820, 1805, 71, 70)
+        self.image = self.game.spritesheet.get_image(814, 1661, 78, 70)
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         self.rect.centerx = self.plat.rect.centerx
@@ -250,39 +250,82 @@ class Mob(Sprite):
         if self.rect.left > WIDTH + 100 or self.rect.right < -100:
             self.kill()
 
+# class Obj(Sprite):
+#     def __init__(self, game):
+#         # adding a object falling from the sky
+#         self._layer = OBJ_LAYER
+#         self.groups = game.all_sprites, game.objs
+#         Sprite.__init__(self, self.groups)
+#         self.game = game
+#         self.image_up = self.game.spritesheet.get_image(900, 1733, 41, 80)
+#         self.image_up.set_colorkey(BLACK)
+#         self.image = self.image_up
+#         self.image.set_colorkey(BLACK)
+#         self.rect = self.image.get_rect()
+#         self.rect.centerx = choice([-100, WIDTH + 100])
+#         self.rect.centerx = choice([100, WIDTH - 100])
+#         self.rect.centery = choice([-100,   100])
+#         self.rect_top = self.rect.top
+#         self.vx = randrange(1, 4)
+#         if self.rect.centerx > WIDTH:
+#             self.vx *= 1
+#         self.rect.y = randrange(HEIGHT//1.5)
+#         self.vy = 2
+#         self.dx = .5
+#     def update(self):
+#         self.acc = vec(0, PLAYER_GRAV)
+#         self.rect.x += self.vx
+#         self.vx += self.dx
+#         self.rect_top = self.rect.top
+#         if self.vx < 3 or  self.vx > -3:
+#             self.dx *= -1
+#         center = self.rect.center
+#         if self.dx < 0:
+#             self.image = self.image_up        
+#         self.rect = self.image.get_rect()
+#         self.mask = pg.mask.from_surface(self.image)
+#         self.rect.center = center
+#         self.rect_top = self.rect.top
+#         self.rect.y += self.vy
+#         if self.rect.left > WIDTH + 100 or self.rect.right < -100:
+#             self.kill()
+
 class Obj(Sprite):
     def __init__(self, game):
         # adding a object falling from the sky
+        #not sure why it keeps moving to the left
+        #makes another layer for the obj so it does not hit platforms or other images
         self._layer = OBJ_LAYER
         self.groups = game.all_sprites, game.objs
         Sprite.__init__(self, self.groups)
         self.game = game
+        #changed imgage
         self.image_up = self.game.spritesheet.get_image(900, 1733, 41, 80)
         self.image_up.set_colorkey(BLACK)
-        self.image_down = self.game.spritesheet.get_image(700, 1534, 122, 200)
-        self.image_down.set_colorkey(BLACK)
         self.image = self.image_up
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
-        self.rect.centerx = choice([-100, WIDTH - WIDTH])
+        #change where it spawns
+        self.rect.centerx = choice([-100, WIDTH + 100])
+        self.rect.centerx = choice([100, WIDTH - 100])
+        # self.rect.centery = choice([-100,   100])
         self.rect_top = self.rect.top
         self.vx = randrange(1, 4)
-        if self.rect.centerx > WIDTH:
-            self.vx *= 1
+        if self.rect.centerx == WIDTH:
+            self.vx *= 0
         self.rect.y = randrange(HEIGHT//1.5)
         self.vy = 2
-        self.dy = .5
+        self.dx = 0
     def update(self):
+        self.acc = vec(0, PLAYER_GRAV)
         self.rect.x += self.vx
-        self.vy += self.dy
+        self.vx += self.dx
         self.rect_top = self.rect.top
-        if self.vy > 3 or  self.vy < -3:
-            self.dy *= -1
+        if self.vx < 3 or  self.vx > -3:
+            self.dx *= 0
         center = self.rect.center
-        if self.dy < 0:
-            self.image = self.image_up
-        else:
-            self.image = self.image_down
+        if self.dx < 0:
+            self.image = self.image_up        
         self.rect = self.image.get_rect()
         self.mask = pg.mask.from_surface(self.image)
         self.rect.center = center
