@@ -11,7 +11,7 @@ figuring out the code and how to manipulate what it does so that it moves and sp
 
 Bugs; obj fall from the side of screen not directly on top and fall diagonally
 
-Made the platforms into cake & powerup into golder carrots 
+Made the platforms into cake & powerup into golder carrots & a couple more changes
 
 '''
 import pygame as pg

@@ -216,9 +216,9 @@ class Mob(Sprite):
         self.groups = game.all_sprites, game.mobs
         Sprite.__init__(self, self.groups)
         self.game = game
-        self.image_up = self.game.spritesheet.get_image(566, 510, 122, 139)
+        self.image_up = self.game.spritesheet.get_image(382, 635, 174, 126)
         self.image_up.set_colorkey(BLACK)
-        self.image_down = self.game.spritesheet.get_image(568, 1534, 122, 135)
+        self.image_down = self.game.spritesheet.get_image(382, 510, 182, 123)
         self.image_down.set_colorkey(BLACK)
         self.image = self.image_up
         self.image.set_colorkey(BLACK)
