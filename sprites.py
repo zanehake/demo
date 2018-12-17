@@ -314,6 +314,7 @@ class Obj(Sprite):
         if self.rect.centerx == WIDTH:
             self.vx *= 0
         self.rect.y = randrange(HEIGHT//1.5)
+        # makes the object move vertically instead of horizontally
         self.vy = 2
         self.dx = 0
     def update(self):
